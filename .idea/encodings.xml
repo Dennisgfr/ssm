@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/ssm-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-manager" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-manager/ssm-manager-mapper" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-manager/ssm-manager-pojo" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-manager/ssm-manager-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-manager/ssm-manager-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-redis" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-rest" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-search" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ssm-sso" charset="UTF-8" />
+  </component>
+</project>
