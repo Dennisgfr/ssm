@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.mapper.FacilityMapper">
+  <resultMap id="BaseResultMap" type="com.ssm.pojo.Facility">
+    <id column="facility_id" jdbcType="INTEGER" property="facilityId" />
+    <result column="facility_name" jdbcType="VARCHAR" property="facilityName" />
+    <result column="facility_amount" jdbcType="INTEGER" property="facilityAmount" />
+    <result column="facility_factory" jdbcType="VARCHAR" property="facilityFactory" />
+    <result column="facility_mdate" jdbcType="TIMESTAMP" property="facilityMdate" />
+    <result column="facility_pdate" jdbcType="TIMESTAMP" property="facilityPdate" />
+    <result column="facility_code" jdbcType="VARCHAR" property="facilityCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    facility_id, facility_name, facility_amount, facility_factory, facility_mdate, facility_pdate, 
+    facility_code
+  </sql>
+  <select id="selectByExample" parameterType="com.ssm.pojo.FacilityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from facility
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from facility
+    where facility_id = #{facilityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from facility
+    where facility_id = #{facilityId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.pojo.FacilityExample">
+    delete from facility
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.pojo.Facility">
+    insert into facility (facility_id, facility_name, facility_amount, 
+      facility_factory, facility_mdate, facility_pdate, 
+      facility_code)
+    values (#{facilityId,jdbcType=INTEGER}, #{facilityName,jdbcType=VARCHAR}, #{facilityAmount,jdbcType=INTEGER}, 
+      #{facilityFactory,jdbcType=VARCHAR}, #{facilityMdate,jdbcType=TIMESTAMP}, #{facilityPdate,jdbcType=TIMESTAMP}, 
+      #{facilityCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.pojo.Facility">
+    insert into facility
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="facilityId != null">
+        facility_id,
+      </if>
+      <if test="facilityName != null">
+        facility_name,
+      </if>
+      <if test="facilityAmount != null">
+        facility_amount,
+      </if>
+      <if test="facilityFactory != null">
+        facility_factory,
+      </if>
+      <if test="facilityMdate != null">
+        facility_mdate,
+      </if>
+      <if test="facilityPdate != null">
+        facility_pdate,
+      </if>
+      <if test="facilityCode != null">
+        facility_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="facilityId != null">
+        #{facilityId,jdbcType=INTEGER},
+      </if>
+      <if test="facilityName != null">
+        #{facilityName,jdbcType=VARCHAR},
+      </if>
+      <if test="facilityAmount != null">
+        #{facilityAmount,jdbcType=INTEGER},
+      </if>
+      <if test="facilityFactory != null">
+        #{facilityFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="facilityMdate != null">
+        #{facilityMdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="facilityPdate != null">
+        #{facilityPdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="facilityCode != null">
+        #{facilityCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.pojo.FacilityExample" resultType="java.lang.Long">
+    select count(*) from facility
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update facility
+    <set>
+      <if test="record.facilityId != null">
+        facility_id = #{record.facilityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.facilityName != null">
+        facility_name = #{record.facilityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.facilityAmount != null">
+        facility_amount = #{record.facilityAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.facilityFactory != null">
+        facility_factory = #{record.facilityFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.facilityMdate != null">
+        facility_mdate = #{record.facilityMdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.facilityPdate != null">
+        facility_pdate = #{record.facilityPdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.facilityCode != null">
+        facility_code = #{record.facilityCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update facility
+    set facility_id = #{record.facilityId,jdbcType=INTEGER},
+      facility_name = #{record.facilityName,jdbcType=VARCHAR},
+      facility_amount = #{record.facilityAmount,jdbcType=INTEGER},
+      facility_factory = #{record.facilityFactory,jdbcType=VARCHAR},
+      facility_mdate = #{record.facilityMdate,jdbcType=TIMESTAMP},
+      facility_pdate = #{record.facilityPdate,jdbcType=TIMESTAMP},
+      facility_code = #{record.facilityCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.pojo.Facility">
+    update facility
+    <set>
+      <if test="facilityName != null">
+        facility_name = #{facilityName,jdbcType=VARCHAR},
+      </if>
+      <if test="facilityAmount != null">
+        facility_amount = #{facilityAmount,jdbcType=INTEGER},
+      </if>
+      <if test="facilityFactory != null">
+        facility_factory = #{facilityFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="facilityMdate != null">
+        facility_mdate = #{facilityMdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="facilityPdate != null">
+        facility_pdate = #{facilityPdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="facilityCode != null">
+        facility_code = #{facilityCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where facility_id = #{facilityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.pojo.Facility">
+    update facility
+    set facility_name = #{facilityName,jdbcType=VARCHAR},
+      facility_amount = #{facilityAmount,jdbcType=INTEGER},
+      facility_factory = #{facilityFactory,jdbcType=VARCHAR},
+      facility_mdate = #{facilityMdate,jdbcType=TIMESTAMP},
+      facility_pdate = #{facilityPdate,jdbcType=TIMESTAMP},
+      facility_code = #{facilityCode,jdbcType=VARCHAR}
+    where facility_id = #{facilityId,jdbcType=INTEGER}
+  </update>
+</mapper>

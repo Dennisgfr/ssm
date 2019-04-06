@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.mapper.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.ssm.pojo.Admin">
+    <id column="adminId" jdbcType="INTEGER" property="adminid" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="admin_sex" jdbcType="VARCHAR" property="adminSex" />
+    <result column="admin_age" jdbcType="INTEGER" property="adminAge" />
+    <result column="admin_phone" jdbcType="VARCHAR" property="adminPhone" />
+    <result column="admin_wx" jdbcType="VARCHAR" property="adminWx" />
+    <result column="admin_addr" jdbcType="VARCHAR" property="adminAddr" />
+    <result column="admin_job" jdbcType="VARCHAR" property="adminJob" />
+    <result column="admin_cardId" jdbcType="VARCHAR" property="adminCardid" />
+    <result column="admin_photo" jdbcType="VARCHAR" property="adminPhoto" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ssm.pojo.Admin">
+    <result column="admin_memo" jdbcType="LONGVARCHAR" property="adminMemo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    adminId, admin_name, admin_sex, admin_age, admin_phone, admin_wx, admin_addr, admin_job, 
+    admin_cardId, admin_photo
+  </sql>
+  <sql id="Blob_Column_List">
+    admin_memo
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.ssm.pojo.AdminExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.ssm.pojo.AdminExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from admin
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.pojo.AdminExample">
+    delete from admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.pojo.Admin">
+    insert into admin (adminId, admin_name, admin_sex, 
+      admin_age, admin_phone, admin_wx, 
+      admin_addr, admin_job, admin_cardId, 
+      admin_photo, admin_memo)
+    values (#{adminid,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{adminSex,jdbcType=VARCHAR}, 
+      #{adminAge,jdbcType=INTEGER}, #{adminPhone,jdbcType=VARCHAR}, #{adminWx,jdbcType=VARCHAR}, 
+      #{adminAddr,jdbcType=VARCHAR}, #{adminJob,jdbcType=VARCHAR}, #{adminCardid,jdbcType=VARCHAR}, 
+      #{adminPhoto,jdbcType=VARCHAR}, #{adminMemo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.pojo.Admin">
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminid != null">
+        adminId,
+      </if>
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="adminSex != null">
+        admin_sex,
+      </if>
+      <if test="adminAge != null">
+        admin_age,
+      </if>
+      <if test="adminPhone != null">
+        admin_phone,
+      </if>
+      <if test="adminWx != null">
+        admin_wx,
+      </if>
+      <if test="adminAddr != null">
+        admin_addr,
+      </if>
+      <if test="adminJob != null">
+        admin_job,
+      </if>
+      <if test="adminCardid != null">
+        admin_cardId,
+      </if>
+      <if test="adminPhoto != null">
+        admin_photo,
+      </if>
+      <if test="adminMemo != null">
+        admin_memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminid != null">
+        #{adminid,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminSex != null">
+        #{adminSex,jdbcType=VARCHAR},
+      </if>
+      <if test="adminAge != null">
+        #{adminAge,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhone != null">
+        #{adminPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="adminWx != null">
+        #{adminWx,jdbcType=VARCHAR},
+      </if>
+      <if test="adminAddr != null">
+        #{adminAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="adminJob != null">
+        #{adminJob,jdbcType=VARCHAR},
+      </if>
+      <if test="adminCardid != null">
+        #{adminCardid,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhoto != null">
+        #{adminPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="adminMemo != null">
+        #{adminMemo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.pojo.AdminExample" resultType="java.lang.Long">
+    select count(*) from admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update admin
+    <set>
+      <if test="record.adminid != null">
+        adminId = #{record.adminid,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminName != null">
+        admin_name = #{record.adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminSex != null">
+        admin_sex = #{record.adminSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminAge != null">
+        admin_age = #{record.adminAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminPhone != null">
+        admin_phone = #{record.adminPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminWx != null">
+        admin_wx = #{record.adminWx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminAddr != null">
+        admin_addr = #{record.adminAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminJob != null">
+        admin_job = #{record.adminJob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminCardid != null">
+        admin_cardId = #{record.adminCardid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminPhoto != null">
+        admin_photo = #{record.adminPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminMemo != null">
+        admin_memo = #{record.adminMemo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update admin
+    set adminId = #{record.adminid,jdbcType=INTEGER},
+      admin_name = #{record.adminName,jdbcType=VARCHAR},
+      admin_sex = #{record.adminSex,jdbcType=VARCHAR},
+      admin_age = #{record.adminAge,jdbcType=INTEGER},
+      admin_phone = #{record.adminPhone,jdbcType=VARCHAR},
+      admin_wx = #{record.adminWx,jdbcType=VARCHAR},
+      admin_addr = #{record.adminAddr,jdbcType=VARCHAR},
+      admin_job = #{record.adminJob,jdbcType=VARCHAR},
+      admin_cardId = #{record.adminCardid,jdbcType=VARCHAR},
+      admin_photo = #{record.adminPhoto,jdbcType=VARCHAR},
+      admin_memo = #{record.adminMemo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update admin
+    set adminId = #{record.adminid,jdbcType=INTEGER},
+      admin_name = #{record.adminName,jdbcType=VARCHAR},
+      admin_sex = #{record.adminSex,jdbcType=VARCHAR},
+      admin_age = #{record.adminAge,jdbcType=INTEGER},
+      admin_phone = #{record.adminPhone,jdbcType=VARCHAR},
+      admin_wx = #{record.adminWx,jdbcType=VARCHAR},
+      admin_addr = #{record.adminAddr,jdbcType=VARCHAR},
+      admin_job = #{record.adminJob,jdbcType=VARCHAR},
+      admin_cardId = #{record.adminCardid,jdbcType=VARCHAR},
+      admin_photo = #{record.adminPhoto,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.pojo.Admin">
+    update admin
+    <set>
+      <if test="adminName != null">
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminSex != null">
+        admin_sex = #{adminSex,jdbcType=VARCHAR},
+      </if>
+      <if test="adminAge != null">
+        admin_age = #{adminAge,jdbcType=INTEGER},
+      </if>
+      <if test="adminPhone != null">
+        admin_phone = #{adminPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="adminWx != null">
+        admin_wx = #{adminWx,jdbcType=VARCHAR},
+      </if>
+      <if test="adminAddr != null">
+        admin_addr = #{adminAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="adminJob != null">
+        admin_job = #{adminJob,jdbcType=VARCHAR},
+      </if>
+      <if test="adminCardid != null">
+        admin_cardId = #{adminCardid,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPhoto != null">
+        admin_photo = #{adminPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="adminMemo != null">
+        admin_memo = #{adminMemo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ssm.pojo.Admin">
+    update admin
+    set admin_name = #{adminName,jdbcType=VARCHAR},
+      admin_sex = #{adminSex,jdbcType=VARCHAR},
+      admin_age = #{adminAge,jdbcType=INTEGER},
+      admin_phone = #{adminPhone,jdbcType=VARCHAR},
+      admin_wx = #{adminWx,jdbcType=VARCHAR},
+      admin_addr = #{adminAddr,jdbcType=VARCHAR},
+      admin_job = #{adminJob,jdbcType=VARCHAR},
+      admin_cardId = #{adminCardid,jdbcType=VARCHAR},
+      admin_photo = #{adminPhoto,jdbcType=VARCHAR},
+      admin_memo = #{adminMemo,jdbcType=LONGVARCHAR}
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.pojo.Admin">
+    update admin
+    set admin_name = #{adminName,jdbcType=VARCHAR},
+      admin_sex = #{adminSex,jdbcType=VARCHAR},
+      admin_age = #{adminAge,jdbcType=INTEGER},
+      admin_phone = #{adminPhone,jdbcType=VARCHAR},
+      admin_wx = #{adminWx,jdbcType=VARCHAR},
+      admin_addr = #{adminAddr,jdbcType=VARCHAR},
+      admin_job = #{adminJob,jdbcType=VARCHAR},
+      admin_cardId = #{adminCardid,jdbcType=VARCHAR},
+      admin_photo = #{adminPhoto,jdbcType=VARCHAR}
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </update>
+</mapper>

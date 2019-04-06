@@ -28,6 +28,6 @@
     </tx:advice>
     <aop:config>
         <aop:advisor advice-ref="txAdvice"
-                     pointcut="execution(* com.manong.service.*.*(..))" />
+                     pointcut="execution(* com.ssm.service.*.*(..))" />
     </aop:config>
 </beans>

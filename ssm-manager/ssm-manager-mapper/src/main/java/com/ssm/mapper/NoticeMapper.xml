@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.mapper.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.ssm.pojo.Notice">
+    <id column="notice_id" jdbcType="INTEGER" property="noticeId" />
+    <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
+    <result column="notice_date" jdbcType="TIMESTAMP" property="noticeDate" />
+    <result column="notice_person" jdbcType="VARCHAR" property="noticePerson" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ssm.pojo.Notice">
+    <result column="notice_text" jdbcType="LONGVARCHAR" property="noticeText" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    notice_id, notice_title, notice_date, notice_person
+  </sql>
+  <sql id="Blob_Column_List">
+    notice_text
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.ssm.pojo.NoticeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.ssm.pojo.NoticeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notice
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from notice
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.pojo.NoticeExample">
+    delete from notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.pojo.Notice">
+    insert into notice (notice_id, notice_title, notice_date, 
+      notice_person, notice_text)
+    values (#{noticeId,jdbcType=INTEGER}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeDate,jdbcType=TIMESTAMP}, 
+      #{noticePerson,jdbcType=VARCHAR}, #{noticeText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.pojo.Notice">
+    insert into notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        notice_id,
+      </if>
+      <if test="noticeTitle != null">
+        notice_title,
+      </if>
+      <if test="noticeDate != null">
+        notice_date,
+      </if>
+      <if test="noticePerson != null">
+        notice_person,
+      </if>
+      <if test="noticeText != null">
+        notice_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        #{noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="noticeTitle != null">
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeDate != null">
+        #{noticeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticePerson != null">
+        #{noticePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeText != null">
+        #{noticeText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.pojo.NoticeExample" resultType="java.lang.Long">
+    select count(*) from notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update notice
+    <set>
+      <if test="record.noticeId != null">
+        notice_id = #{record.noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.noticeTitle != null">
+        notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeDate != null">
+        notice_date = #{record.noticeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.noticePerson != null">
+        notice_person = #{record.noticePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeText != null">
+        notice_text = #{record.noticeText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update notice
+    set notice_id = #{record.noticeId,jdbcType=INTEGER},
+      notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      notice_date = #{record.noticeDate,jdbcType=TIMESTAMP},
+      notice_person = #{record.noticePerson,jdbcType=VARCHAR},
+      notice_text = #{record.noticeText,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update notice
+    set notice_id = #{record.noticeId,jdbcType=INTEGER},
+      notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      notice_date = #{record.noticeDate,jdbcType=TIMESTAMP},
+      notice_person = #{record.noticePerson,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.pojo.Notice">
+    update notice
+    <set>
+      <if test="noticeTitle != null">
+        notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeDate != null">
+        notice_date = #{noticeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticePerson != null">
+        notice_person = #{noticePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeText != null">
+        notice_text = #{noticeText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ssm.pojo.Notice">
+    update notice
+    set notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      notice_date = #{noticeDate,jdbcType=TIMESTAMP},
+      notice_person = #{noticePerson,jdbcType=VARCHAR},
+      notice_text = #{noticeText,jdbcType=LONGVARCHAR}
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.pojo.Notice">
+    update notice
+    set notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      notice_date = #{noticeDate,jdbcType=TIMESTAMP},
+      notice_person = #{noticePerson,jdbcType=VARCHAR}
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+</mapper>

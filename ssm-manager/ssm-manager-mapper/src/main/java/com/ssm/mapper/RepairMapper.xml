@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.mapper.RepairMapper">
+  <resultMap id="BaseResultMap" type="com.ssm.pojo.Repair">
+    <id column="repair_id" jdbcType="INTEGER" property="repairId" />
+    <result column="repair_title" jdbcType="VARCHAR" property="repairTitle" />
+    <result column="repair_date" jdbcType="TIMESTAMP" property="repairDate" />
+    <result column="repair_status" jdbcType="VARCHAR" property="repairStatus" />
+    <result column="repair_office" jdbcType="VARCHAR" property="repairOffice" />
+    <result column="repair_desc" jdbcType="VARCHAR" property="repairDesc" />
+    <result column="repair_mainhead" jdbcType="VARCHAR" property="repairMainhead" />
+    <result column="mainheadTel" jdbcType="VARCHAR" property="mainheadtel" />
+    <result column="repair_tel" jdbcType="VARCHAR" property="repairTel" />
+    <result column="repair_facility" jdbcType="VARCHAR" property="repairFacility" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ssm.pojo.Repair">
+    <result column="repair_feedback" jdbcType="LONGVARCHAR" property="repairFeedback" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    repair_id, repair_title, repair_date, repair_status, repair_office, repair_desc, 
+    repair_mainhead, mainheadTel, repair_tel, repair_facility
+  </sql>
+  <sql id="Blob_Column_List">
+    repair_feedback
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.ssm.pojo.RepairExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from repair
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.ssm.pojo.RepairExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from repair
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from repair
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from repair
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.pojo.RepairExample">
+    delete from repair
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.pojo.Repair">
+    insert into repair (repair_id, repair_title, repair_date, 
+      repair_status, repair_office, repair_desc, 
+      repair_mainhead, mainheadTel, repair_tel, 
+      repair_facility, repair_feedback)
+    values (#{repairId,jdbcType=INTEGER}, #{repairTitle,jdbcType=VARCHAR}, #{repairDate,jdbcType=TIMESTAMP}, 
+      #{repairStatus,jdbcType=VARCHAR}, #{repairOffice,jdbcType=VARCHAR}, #{repairDesc,jdbcType=VARCHAR}, 
+      #{repairMainhead,jdbcType=VARCHAR}, #{mainheadtel,jdbcType=VARCHAR}, #{repairTel,jdbcType=VARCHAR}, 
+      #{repairFacility,jdbcType=VARCHAR}, #{repairFeedback,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.pojo.Repair">
+    insert into repair
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="repairId != null">
+        repair_id,
+      </if>
+      <if test="repairTitle != null">
+        repair_title,
+      </if>
+      <if test="repairDate != null">
+        repair_date,
+      </if>
+      <if test="repairStatus != null">
+        repair_status,
+      </if>
+      <if test="repairOffice != null">
+        repair_office,
+      </if>
+      <if test="repairDesc != null">
+        repair_desc,
+      </if>
+      <if test="repairMainhead != null">
+        repair_mainhead,
+      </if>
+      <if test="mainheadtel != null">
+        mainheadTel,
+      </if>
+      <if test="repairTel != null">
+        repair_tel,
+      </if>
+      <if test="repairFacility != null">
+        repair_facility,
+      </if>
+      <if test="repairFeedback != null">
+        repair_feedback,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="repairId != null">
+        #{repairId,jdbcType=INTEGER},
+      </if>
+      <if test="repairTitle != null">
+        #{repairTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="repairDate != null">
+        #{repairDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repairStatus != null">
+        #{repairStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="repairOffice != null">
+        #{repairOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="repairDesc != null">
+        #{repairDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="repairMainhead != null">
+        #{repairMainhead,jdbcType=VARCHAR},
+      </if>
+      <if test="mainheadtel != null">
+        #{mainheadtel,jdbcType=VARCHAR},
+      </if>
+      <if test="repairTel != null">
+        #{repairTel,jdbcType=VARCHAR},
+      </if>
+      <if test="repairFacility != null">
+        #{repairFacility,jdbcType=VARCHAR},
+      </if>
+      <if test="repairFeedback != null">
+        #{repairFeedback,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.pojo.RepairExample" resultType="java.lang.Long">
+    select count(*) from repair
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update repair
+    <set>
+      <if test="record.repairId != null">
+        repair_id = #{record.repairId,jdbcType=INTEGER},
+      </if>
+      <if test="record.repairTitle != null">
+        repair_title = #{record.repairTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairDate != null">
+        repair_date = #{record.repairDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.repairStatus != null">
+        repair_status = #{record.repairStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairOffice != null">
+        repair_office = #{record.repairOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairDesc != null">
+        repair_desc = #{record.repairDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairMainhead != null">
+        repair_mainhead = #{record.repairMainhead,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainheadtel != null">
+        mainheadTel = #{record.mainheadtel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairTel != null">
+        repair_tel = #{record.repairTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairFacility != null">
+        repair_facility = #{record.repairFacility,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairFeedback != null">
+        repair_feedback = #{record.repairFeedback,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update repair
+    set repair_id = #{record.repairId,jdbcType=INTEGER},
+      repair_title = #{record.repairTitle,jdbcType=VARCHAR},
+      repair_date = #{record.repairDate,jdbcType=TIMESTAMP},
+      repair_status = #{record.repairStatus,jdbcType=VARCHAR},
+      repair_office = #{record.repairOffice,jdbcType=VARCHAR},
+      repair_desc = #{record.repairDesc,jdbcType=VARCHAR},
+      repair_mainhead = #{record.repairMainhead,jdbcType=VARCHAR},
+      mainheadTel = #{record.mainheadtel,jdbcType=VARCHAR},
+      repair_tel = #{record.repairTel,jdbcType=VARCHAR},
+      repair_facility = #{record.repairFacility,jdbcType=VARCHAR},
+      repair_feedback = #{record.repairFeedback,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update repair
+    set repair_id = #{record.repairId,jdbcType=INTEGER},
+      repair_title = #{record.repairTitle,jdbcType=VARCHAR},
+      repair_date = #{record.repairDate,jdbcType=TIMESTAMP},
+      repair_status = #{record.repairStatus,jdbcType=VARCHAR},
+      repair_office = #{record.repairOffice,jdbcType=VARCHAR},
+      repair_desc = #{record.repairDesc,jdbcType=VARCHAR},
+      repair_mainhead = #{record.repairMainhead,jdbcType=VARCHAR},
+      mainheadTel = #{record.mainheadtel,jdbcType=VARCHAR},
+      repair_tel = #{record.repairTel,jdbcType=VARCHAR},
+      repair_facility = #{record.repairFacility,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.pojo.Repair">
+    update repair
+    <set>
+      <if test="repairTitle != null">
+        repair_title = #{repairTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="repairDate != null">
+        repair_date = #{repairDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repairStatus != null">
+        repair_status = #{repairStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="repairOffice != null">
+        repair_office = #{repairOffice,jdbcType=VARCHAR},
+      </if>
+      <if test="repairDesc != null">
+        repair_desc = #{repairDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="repairMainhead != null">
+        repair_mainhead = #{repairMainhead,jdbcType=VARCHAR},
+      </if>
+      <if test="mainheadtel != null">
+        mainheadTel = #{mainheadtel,jdbcType=VARCHAR},
+      </if>
+      <if test="repairTel != null">
+        repair_tel = #{repairTel,jdbcType=VARCHAR},
+      </if>
+      <if test="repairFacility != null">
+        repair_facility = #{repairFacility,jdbcType=VARCHAR},
+      </if>
+      <if test="repairFeedback != null">
+        repair_feedback = #{repairFeedback,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ssm.pojo.Repair">
+    update repair
+    set repair_title = #{repairTitle,jdbcType=VARCHAR},
+      repair_date = #{repairDate,jdbcType=TIMESTAMP},
+      repair_status = #{repairStatus,jdbcType=VARCHAR},
+      repair_office = #{repairOffice,jdbcType=VARCHAR},
+      repair_desc = #{repairDesc,jdbcType=VARCHAR},
+      repair_mainhead = #{repairMainhead,jdbcType=VARCHAR},
+      mainheadTel = #{mainheadtel,jdbcType=VARCHAR},
+      repair_tel = #{repairTel,jdbcType=VARCHAR},
+      repair_facility = #{repairFacility,jdbcType=VARCHAR},
+      repair_feedback = #{repairFeedback,jdbcType=LONGVARCHAR}
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.pojo.Repair">
+    update repair
+    set repair_title = #{repairTitle,jdbcType=VARCHAR},
+      repair_date = #{repairDate,jdbcType=TIMESTAMP},
+      repair_status = #{repairStatus,jdbcType=VARCHAR},
+      repair_office = #{repairOffice,jdbcType=VARCHAR},
+      repair_desc = #{repairDesc,jdbcType=VARCHAR},
+      repair_mainhead = #{repairMainhead,jdbcType=VARCHAR},
+      mainheadTel = #{mainheadtel,jdbcType=VARCHAR},
+      repair_tel = #{repairTel,jdbcType=VARCHAR},
+      repair_facility = #{repairFacility,jdbcType=VARCHAR}
+    where repair_id = #{repairId,jdbcType=INTEGER}
+  </update>
+</mapper>

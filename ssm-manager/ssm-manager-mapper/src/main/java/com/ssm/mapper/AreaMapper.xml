@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.mapper.AreaMapper">
+  <resultMap id="BaseResultMap" type="com.ssm.pojo.Area">
+    <id column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="area_buildtime" jdbcType="TIMESTAMP" property="areaBuildtime" />
+    <result column="area_addr" jdbcType="VARCHAR" property="areaAddr" />
+    <result column="area_size" jdbcType="REAL" property="areaSize" />
+    <result column="area_mainhead" jdbcType="VARCHAR" property="areaMainhead" />
+    <result column="area_amount" jdbcType="INTEGER" property="areaAmount" />
+    <result column="area_parking" jdbcType="REAL" property="areaParking" />
+    <result column="area_green" jdbcType="REAL" property="areaGreen" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ssm.pojo.AreaWithBLOBs">
+    <result column="area_info" jdbcType="LONGVARCHAR" property="areaInfo" />
+    <result column="area_memo" jdbcType="LONGVARCHAR" property="areaMemo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    area_id, area_name, area_buildtime, area_addr, area_size, area_mainhead, area_amount, 
+    area_parking, area_green
+  </sql>
+  <sql id="Blob_Column_List">
+    area_info, area_memo
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.ssm.pojo.AreaExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from area
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.ssm.pojo.AreaExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from area
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from area
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from area
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.pojo.AreaExample">
+    delete from area
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.pojo.AreaWithBLOBs">
+    insert into area (area_id, area_name, area_buildtime, 
+      area_addr, area_size, area_mainhead, 
+      area_amount, area_parking, area_green, 
+      area_info, area_memo)
+    values (#{areaId,jdbcType=INTEGER}, #{areaName,jdbcType=VARCHAR}, #{areaBuildtime,jdbcType=TIMESTAMP}, 
+      #{areaAddr,jdbcType=VARCHAR}, #{areaSize,jdbcType=REAL}, #{areaMainhead,jdbcType=VARCHAR}, 
+      #{areaAmount,jdbcType=INTEGER}, #{areaParking,jdbcType=REAL}, #{areaGreen,jdbcType=REAL}, 
+      #{areaInfo,jdbcType=LONGVARCHAR}, #{areaMemo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.pojo.AreaWithBLOBs">
+    insert into area
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="areaBuildtime != null">
+        area_buildtime,
+      </if>
+      <if test="areaAddr != null">
+        area_addr,
+      </if>
+      <if test="areaSize != null">
+        area_size,
+      </if>
+      <if test="areaMainhead != null">
+        area_mainhead,
+      </if>
+      <if test="areaAmount != null">
+        area_amount,
+      </if>
+      <if test="areaParking != null">
+        area_parking,
+      </if>
+      <if test="areaGreen != null">
+        area_green,
+      </if>
+      <if test="areaInfo != null">
+        area_info,
+      </if>
+      <if test="areaMemo != null">
+        area_memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="areaId != null">
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaBuildtime != null">
+        #{areaBuildtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaAddr != null">
+        #{areaAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaSize != null">
+        #{areaSize,jdbcType=REAL},
+      </if>
+      <if test="areaMainhead != null">
+        #{areaMainhead,jdbcType=VARCHAR},
+      </if>
+      <if test="areaAmount != null">
+        #{areaAmount,jdbcType=INTEGER},
+      </if>
+      <if test="areaParking != null">
+        #{areaParking,jdbcType=REAL},
+      </if>
+      <if test="areaGreen != null">
+        #{areaGreen,jdbcType=REAL},
+      </if>
+      <if test="areaInfo != null">
+        #{areaInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="areaMemo != null">
+        #{areaMemo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.pojo.AreaExample" resultType="java.lang.Long">
+    select count(*) from area
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update area
+    <set>
+      <if test="record.areaId != null">
+        area_id = #{record.areaId,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaName != null">
+        area_name = #{record.areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaBuildtime != null">
+        area_buildtime = #{record.areaBuildtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.areaAddr != null">
+        area_addr = #{record.areaAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaSize != null">
+        area_size = #{record.areaSize,jdbcType=REAL},
+      </if>
+      <if test="record.areaMainhead != null">
+        area_mainhead = #{record.areaMainhead,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaAmount != null">
+        area_amount = #{record.areaAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaParking != null">
+        area_parking = #{record.areaParking,jdbcType=REAL},
+      </if>
+      <if test="record.areaGreen != null">
+        area_green = #{record.areaGreen,jdbcType=REAL},
+      </if>
+      <if test="record.areaInfo != null">
+        area_info = #{record.areaInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.areaMemo != null">
+        area_memo = #{record.areaMemo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update area
+    set area_id = #{record.areaId,jdbcType=INTEGER},
+      area_name = #{record.areaName,jdbcType=VARCHAR},
+      area_buildtime = #{record.areaBuildtime,jdbcType=TIMESTAMP},
+      area_addr = #{record.areaAddr,jdbcType=VARCHAR},
+      area_size = #{record.areaSize,jdbcType=REAL},
+      area_mainhead = #{record.areaMainhead,jdbcType=VARCHAR},
+      area_amount = #{record.areaAmount,jdbcType=INTEGER},
+      area_parking = #{record.areaParking,jdbcType=REAL},
+      area_green = #{record.areaGreen,jdbcType=REAL},
+      area_info = #{record.areaInfo,jdbcType=LONGVARCHAR},
+      area_memo = #{record.areaMemo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update area
+    set area_id = #{record.areaId,jdbcType=INTEGER},
+      area_name = #{record.areaName,jdbcType=VARCHAR},
+      area_buildtime = #{record.areaBuildtime,jdbcType=TIMESTAMP},
+      area_addr = #{record.areaAddr,jdbcType=VARCHAR},
+      area_size = #{record.areaSize,jdbcType=REAL},
+      area_mainhead = #{record.areaMainhead,jdbcType=VARCHAR},
+      area_amount = #{record.areaAmount,jdbcType=INTEGER},
+      area_parking = #{record.areaParking,jdbcType=REAL},
+      area_green = #{record.areaGreen,jdbcType=REAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.pojo.AreaWithBLOBs">
+    update area
+    <set>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaBuildtime != null">
+        area_buildtime = #{areaBuildtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaAddr != null">
+        area_addr = #{areaAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaSize != null">
+        area_size = #{areaSize,jdbcType=REAL},
+      </if>
+      <if test="areaMainhead != null">
+        area_mainhead = #{areaMainhead,jdbcType=VARCHAR},
+      </if>
+      <if test="areaAmount != null">
+        area_amount = #{areaAmount,jdbcType=INTEGER},
+      </if>
+      <if test="areaParking != null">
+        area_parking = #{areaParking,jdbcType=REAL},
+      </if>
+      <if test="areaGreen != null">
+        area_green = #{areaGreen,jdbcType=REAL},
+      </if>
+      <if test="areaInfo != null">
+        area_info = #{areaInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="areaMemo != null">
+        area_memo = #{areaMemo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ssm.pojo.AreaWithBLOBs">
+    update area
+    set area_name = #{areaName,jdbcType=VARCHAR},
+      area_buildtime = #{areaBuildtime,jdbcType=TIMESTAMP},
+      area_addr = #{areaAddr,jdbcType=VARCHAR},
+      area_size = #{areaSize,jdbcType=REAL},
+      area_mainhead = #{areaMainhead,jdbcType=VARCHAR},
+      area_amount = #{areaAmount,jdbcType=INTEGER},
+      area_parking = #{areaParking,jdbcType=REAL},
+      area_green = #{areaGreen,jdbcType=REAL},
+      area_info = #{areaInfo,jdbcType=LONGVARCHAR},
+      area_memo = #{areaMemo,jdbcType=LONGVARCHAR}
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.pojo.Area">
+    update area
+    set area_name = #{areaName,jdbcType=VARCHAR},
+      area_buildtime = #{areaBuildtime,jdbcType=TIMESTAMP},
+      area_addr = #{areaAddr,jdbcType=VARCHAR},
+      area_size = #{areaSize,jdbcType=REAL},
+      area_mainhead = #{areaMainhead,jdbcType=VARCHAR},
+      area_amount = #{areaAmount,jdbcType=INTEGER},
+      area_parking = #{areaParking,jdbcType=REAL},
+      area_green = #{areaGreen,jdbcType=REAL}
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </update>
+</mapper>
